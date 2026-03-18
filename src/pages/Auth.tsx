@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Lock, User, ArrowRight } from "lucide-react";
+import { Mail, Lock, User, ArrowRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 
 type AuthMode = "login" | "register" | "reset";
 
@@ -12,15 +15,73 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { user } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Redirect if already logged in
+  if (user) {
+    navigate("/", { replace: true });
+    return null;
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (mode === "login") {
-      toast.info("Prijava još nije povezana sa backendom.");
-    } else if (mode === "register") {
-      toast.info("Registracija još nije povezana sa backendom.");
-    } else {
-      toast.info("Link za resetovanje lozinke će biti poslan kada se poveže backend.");
+    if (!email.trim()) {
+      toast.error("Unesite email adresu.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      if (mode === "register") {
+        if (!password || password.length < 6) {
+          toast.error("Lozinka mora imati najmanje 6 karaktera.");
+          setLoading(false);
+          return;
+        }
+        const { error } = await supabase.auth.signUp({
+          email: email.trim(),
+          password,
+          options: {
+            data: { full_name: name.trim() },
+            emailRedirectTo: window.location.origin,
+          },
+        });
+        if (error) throw error;
+        toast.success("Registracija uspješna! Provjerite email za potvrdu.");
+      } else if (mode === "login") {
+        if (!password) {
+          toast.error("Unesite lozinku.");
+          setLoading(false);
+          return;
+        }
+        const { error } = await supabase.auth.signInWithPassword({
+          email: email.trim(),
+          password,
+        });
+        if (error) throw error;
+        toast.success("Uspješna prijava!");
+        navigate("/");
+      } else {
+        const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+          redirectTo: `${window.location.origin}/reset-password`,
+        });
+        if (error) throw error;
+        toast.success("Link za resetovanje lozinke je poslan na vaš email.");
+      }
+    } catch (error: any) {
+      const msg = error?.message || "Došlo je do greške.";
+      if (msg.includes("Invalid login")) {
+        toast.error("Pogrešan email ili lozinka.");
+      } else if (msg.includes("already registered")) {
+        toast.error("Korisnik sa ovim emailom već postoji.");
+      } else {
+        toast.error(msg);
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -99,11 +160,17 @@ const Auth = () => {
                   </div>
                 )}
 
-                <Button variant="accent" type="submit" className="w-full gap-2 rounded-xl">
-                  {mode === "login" && "Prijavi se"}
-                  {mode === "register" && "Registruj se"}
-                  {mode === "reset" && "Pošalji link za reset"}
-                  <ArrowRight className="w-4 h-4" />
+                <Button variant="accent" type="submit" className="w-full gap-2 rounded-xl" disabled={loading}>
+                  {loading ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <>
+                      {mode === "login" && "Prijavi se"}
+                      {mode === "register" && "Registruj se"}
+                      {mode === "reset" && "Pošalji link za reset"}
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
                 </Button>
 
                 <div className="text-center space-y-2 pt-2">
