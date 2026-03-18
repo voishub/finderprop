@@ -1,18 +1,30 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Home, Building, LogIn, Shield } from "lucide-react";
+import { Menu, X, Home, Building, LogIn, LogOut, Shield, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { user, isAdmin, signOut } = useAuth();
 
   const links = [
     { to: "/", label: "Početna", icon: Home },
     { to: "/nekretnine", label: "Nekretnine", icon: Building },
   ];
 
+  if (isAdmin) {
+    links.push({ to: "/admin", label: "Admin", icon: Shield });
+  }
+
   const isActive = (path: string) => location.pathname === path;
+
+  const handleSignOut = async () => {
+    await signOut();
+    toast.success("Uspješno ste se odjavili.");
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-card/80 backdrop-blur-md border-b border-border">
@@ -25,7 +37,6 @@ const Navbar = () => {
             <span className="font-display font-bold text-xl text-foreground">Tedefy</span>
           </Link>
 
-          {/* Desktop */}
           <div className="hidden md:flex items-center gap-1">
             {links.map((link) => (
               <Link
@@ -43,15 +54,27 @@ const Navbar = () => {
           </div>
 
           <div className="hidden md:flex items-center gap-2">
-            <Link to="/auth">
-              <Button variant="outline" size="sm" className="gap-2">
-                <LogIn className="w-4 h-4" />
-                Prijava
-              </Button>
-            </Link>
+            {user ? (
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-muted-foreground flex items-center gap-1.5">
+                  <User className="w-3.5 h-3.5" />
+                  {user.user_metadata?.full_name || user.email}
+                </span>
+                <Button variant="outline" size="sm" className="gap-2" onClick={handleSignOut}>
+                  <LogOut className="w-4 h-4" />
+                  Odjava
+                </Button>
+              </div>
+            ) : (
+              <Link to="/auth">
+                <Button variant="outline" size="sm" className="gap-2">
+                  <LogIn className="w-4 h-4" />
+                  Prijava
+                </Button>
+              </Link>
+            )}
           </div>
 
-          {/* Mobile toggle */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="md:hidden p-2 rounded-lg hover:bg-secondary"
@@ -60,7 +83,6 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* Mobile menu */}
         {isOpen && (
           <div className="md:hidden py-4 border-t border-border animate-fade-in">
             {links.map((link) => (
@@ -78,14 +100,24 @@ const Navbar = () => {
                 {link.label}
               </Link>
             ))}
-            <Link
-              to="/auth"
-              onClick={() => setIsOpen(false)}
-              className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground"
-            >
-              <LogIn className="w-4 h-4" />
-              Prijava
-            </Link>
+            {user ? (
+              <button
+                onClick={() => { handleSignOut(); setIsOpen(false); }}
+                className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground w-full"
+              >
+                <LogOut className="w-4 h-4" />
+                Odjava
+              </button>
+            ) : (
+              <Link
+                to="/auth"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground"
+              >
+                <LogIn className="w-4 h-4" />
+                Prijava
+              </Link>
+            )}
           </div>
         )}
       </div>
