@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Lock, User, ArrowRight, Loader2 } from "lucide-react";
+import { Mail, Lock, User, Phone, ArrowRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -14,12 +15,13 @@ const Auth = () => {
   const [mode, setMode] = useState<AuthMode>("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  // Redirect if already logged in
   if (user) {
     navigate("/", { replace: true });
     return null;
@@ -36,6 +38,16 @@ const Auth = () => {
 
     try {
       if (mode === "register") {
+        if (!firstName.trim() || !lastName.trim()) {
+          toast.error("Unesite ime i prezime.");
+          setLoading(false);
+          return;
+        }
+        if (!phone.trim()) {
+          toast.error("Unesite broj telefona.");
+          setLoading(false);
+          return;
+        }
         if (!password || password.length < 6) {
           toast.error("Lozinka mora imati najmanje 6 karaktera.");
           setLoading(false);
@@ -45,7 +57,12 @@ const Auth = () => {
           email: email.trim(),
           password,
           options: {
-            data: { full_name: name.trim() },
+            data: {
+              first_name: firstName.trim(),
+              last_name: lastName.trim(),
+              full_name: `${firstName.trim()} ${lastName.trim()}`,
+              phone: phone.trim(),
+            },
             emailRedirectTo: window.location.origin,
           },
         });
@@ -91,10 +108,12 @@ const Auth = () => {
     reset: "Resetuj lozinku",
   };
 
+  const inputClass = "w-full pl-10 pr-4 py-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:border-primary transition-brand";
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
-      <div className="pt-24 pb-20 flex items-center justify-center px-4">
+      <div className="flex-1 pt-24 pb-20 flex items-center justify-center px-4">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center mx-auto mb-4">
@@ -124,16 +143,40 @@ const Auth = () => {
             >
               <form onSubmit={handleSubmit} className="bg-card rounded-2xl shadow-card p-8 space-y-4">
                 {mode === "register" && (
-                  <div className="relative">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                    <input
-                      type="text"
-                      placeholder="Ime i prezime"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:border-primary transition-brand"
-                    />
-                  </div>
+                  <>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="relative">
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                        <input
+                          type="text"
+                          placeholder="Ime"
+                          value={firstName}
+                          onChange={(e) => setFirstName(e.target.value)}
+                          className={inputClass}
+                        />
+                      </div>
+                      <div className="relative">
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                        <input
+                          type="text"
+                          placeholder="Prezime"
+                          value={lastName}
+                          onChange={(e) => setLastName(e.target.value)}
+                          className={inputClass}
+                        />
+                      </div>
+                    </div>
+                    <div className="relative">
+                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                      <input
+                        type="tel"
+                        placeholder="Broj telefona"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        className={inputClass}
+                      />
+                    </div>
+                  </>
                 )}
 
                 <div className="relative">
@@ -143,7 +186,7 @@ const Auth = () => {
                     placeholder="Email adresa"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:border-primary transition-brand"
+                    className={inputClass}
                   />
                 </div>
 
@@ -155,7 +198,7 @@ const Auth = () => {
                       placeholder="Lozinka"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:border-primary transition-brand"
+                      className={inputClass}
                     />
                   </div>
                 )}
@@ -206,6 +249,7 @@ const Auth = () => {
           </AnimatePresence>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

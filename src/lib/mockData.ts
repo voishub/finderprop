@@ -19,7 +19,7 @@ export const mockProperties: Property[] = [
   {
     id: "1",
     title: "Luksuzni apartman uz more",
-    city: "Dubrovnik",
+    city: "Budva",
     type: "Apartman",
     size_m2: 72.5,
     airport_distance_km: 22,
@@ -35,7 +35,7 @@ export const mockProperties: Property[] = [
   {
     id: "2",
     title: "Studio u centru grada",
-    city: "Zagreb",
+    city: "Podgorica",
     type: "Studio",
     size_m2: 35.0,
     airport_distance_km: 15,
@@ -43,7 +43,7 @@ export const mockProperties: Property[] = [
     bed_type: "Krevet za jednu osobu",
     max_guests: 2,
     price_per_night: 65,
-    description: "Kompaktan studio u samom srcu Zagreba. Savršen za poslovne putnike ili solo avanturiste koji žele istražiti grad.",
+    description: "Kompaktan studio u samom srcu Podgorice. Savršen za poslovne putnike ili solo avanturiste koji žele istražiti grad.",
     images: [],
     amenities: ["WiFi", "Klima", "TV", "Perilica rublja"],
     bookedDates: ["2026-03-25", "2026-03-26", "2026-03-27"],
@@ -51,7 +51,7 @@ export const mockProperties: Property[] = [
   {
     id: "3",
     title: "Vila sa bazenom",
-    city: "Split",
+    city: "Tivat",
     type: "Vila",
     size_m2: 180.0,
     airport_distance_km: 8,
@@ -67,7 +67,7 @@ export const mockProperties: Property[] = [
   {
     id: "4",
     title: "Penthouse sa panoramskim pogledom",
-    city: "Sarajevo",
+    city: "Herceg Novi",
     type: "Apartman",
     size_m2: 95.0,
     airport_distance_km: 12,
@@ -83,7 +83,7 @@ export const mockProperties: Property[] = [
   {
     id: "5",
     title: "Kuća na selu",
-    city: "Mostar",
+    city: "Kolašin",
     type: "Kuća",
     size_m2: 120.0,
     airport_distance_km: 35,
@@ -99,7 +99,7 @@ export const mockProperties: Property[] = [
   {
     id: "6",
     title: "Moderni loft",
-    city: "Dubrovnik",
+    city: "Kotor",
     type: "Studio",
     size_m2: 48.0,
     airport_distance_km: 20,
@@ -115,4 +115,29 @@ export const mockProperties: Property[] = [
 ];
 
 export const propertyTypes = ["Apartman", "Studio", "Vila", "Kuća"];
-export const cities = ["Dubrovnik", "Zagreb", "Split", "Sarajevo", "Mostar"];
+export const cities = [
+  "Podgorica",
+  "Nikšić",
+  "Herceg Novi",
+  "Budva",
+  "Kotor",
+  "Tivat",
+  "Bar",
+  "Ulcinj",
+  "Cetinje",
+  "Bijelo Polje",
+  "Berane",
+  "Pljevlja",
+  "Rožaje",
+  "Kolašin",
+  "Mojkovac",
+  "Danilovgrad",
+  "Žabljak",
+  "Plav",
+  "Andrijevica",
+  "Šavnik",
+  "Petnjica",
+  "Gusinje",
+  "Tuzi",
+  "Zeta",
+];

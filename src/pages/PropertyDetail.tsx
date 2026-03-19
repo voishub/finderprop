@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, MapPin, Maximize2, BedDouble, Plane, Users, Wifi, Car, Waves, Tv, Wind, UtensilsCrossed, Shirt, Fence } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import BookingCalendar from "@/components/BookingCalendar";
 import ContactForm from "@/components/ContactForm";
 import { Button } from "@/components/ui/button";
@@ -8,14 +9,8 @@ import { mockProperties } from "@/lib/mockData";
 import { toast } from "sonner";
 
 const amenityIcons: Record<string, React.ElementType> = {
-  WiFi: Wifi,
-  Parking: Car,
-  Bazen: Waves,
-  TV: Tv,
-  Klima: Wind,
-  Kuhinja: UtensilsCrossed,
-  "Perilica rublja": Shirt,
-  Vrt: Fence,
+  WiFi: Wifi, Parking: Car, Bazen: Waves, TV: Tv, Klima: Wind,
+  Kuhinja: UtensilsCrossed, "Perilica rublja": Shirt, Vrt: Fence,
 };
 
 const PropertyDetail = () => {
@@ -24,26 +19,23 @@ const PropertyDetail = () => {
 
   if (!property) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
         <Navbar />
-        <div className="pt-24 container mx-auto px-4 text-center py-20">
+        <div className="flex-1 pt-24 container mx-auto px-4 text-center py-20">
           <h1 className="font-display text-2xl font-bold text-foreground mb-4">Nekretnina nije pronađena</h1>
           <Link to="/nekretnine">
             <Button variant="outline">Nazad na nekretnine</Button>
           </Link>
         </div>
+        <Footer />
       </div>
     );
   }
 
-  const handleBooking = (start: string, end: string) => {
-    toast.success(`Bukiranje zatraženo: ${start} → ${end}`);
-  };
-
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
-      <div className="pt-20">
+      <div className="flex-1 pt-20">
         {/* Hero image */}
         <div className="relative h-[50vh] bg-secondary overflow-hidden">
           {property.images[0] ? (
@@ -68,7 +60,6 @@ const PropertyDetail = () => {
           </Link>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Main content */}
             <div className="lg:col-span-2 space-y-8">
               <div>
                 <h1 className="font-display font-bold text-3xl text-foreground mb-2">{property.title}</h1>
@@ -78,7 +69,6 @@ const PropertyDetail = () => {
                 </p>
               </div>
 
-              {/* Specs grid */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
                   { icon: Maximize2, label: "Površina", value: `${property.size_m2} m²` },
@@ -94,13 +84,11 @@ const PropertyDetail = () => {
                 ))}
               </div>
 
-              {/* Description */}
               <div>
                 <h2 className="font-display font-semibold text-xl text-foreground mb-3">Opis</h2>
                 <p className="text-muted-foreground font-body leading-relaxed">{property.description}</p>
               </div>
 
-              {/* Amenities */}
               <div>
                 <h2 className="font-display font-semibold text-xl text-foreground mb-3">Sadržaji</h2>
                 <div className="flex flex-wrap gap-2">
@@ -117,17 +105,17 @@ const PropertyDetail = () => {
               </div>
             </div>
 
-            {/* Sidebar */}
             <div className="space-y-6">
               <div>
                 <h2 className="font-display font-semibold text-lg text-foreground mb-3">Dostupnost</h2>
-                <BookingCalendar bookedDates={property.bookedDates} onDateSelect={handleBooking} />
+                <BookingCalendar bookedDates={property.bookedDates} propertyTitle={property.title} />
               </div>
               <ContactForm propertyTitle={property.title} />
             </div>
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
