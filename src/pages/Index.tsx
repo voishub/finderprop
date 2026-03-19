@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import Footer from "@/components/Footer";
 import PropertyCard from "@/components/PropertyCard";
 import { mockProperties } from "@/lib/mockData";
 import { Link } from "react-router-dom";
@@ -10,7 +11,7 @@ const Index = () => {
   const featured = mockProperties.slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
       <HeroSection />
 
@@ -38,19 +39,7 @@ const Index = () => {
         </div>
       </section>
 
-      <footer className="border-t border-border py-10">
-        <div className="container mx-auto px-4 text-center">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <div className="w-6 h-6 rounded-md bg-primary flex items-center justify-center">
-              <span className="font-display font-bold text-primary-foreground text-xs">T</span>
-            </div>
-            <span className="font-display font-semibold text-foreground">Tedefy</span>
-          </div>
-          <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Tedefy. Sva prava zadržana.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

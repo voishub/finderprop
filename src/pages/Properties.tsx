@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import SearchBar from "@/components/SearchBar";
 import PropertyCard from "@/components/PropertyCard";
 import { mockProperties } from "@/lib/mockData";
@@ -21,9 +22,9 @@ const Properties = () => {
   }, [keyword, type, city]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
-      <div className="pt-24 pb-20">
+      <div className="flex-1 pt-24 pb-20">
         <div className="container mx-auto px-4">
           <div className="mb-8">
             <h1 className="font-display font-bold text-3xl text-foreground mb-2">Nekretnine</h1>
@@ -34,12 +35,8 @@ const Properties = () => {
 
           <div className="mb-10">
             <SearchBar
-              keyword={keyword}
-              type={type}
-              city={city}
-              onKeywordChange={setKeyword}
-              onTypeChange={setType}
-              onCityChange={setCity}
+              keyword={keyword} type={type} city={city}
+              onKeywordChange={setKeyword} onTypeChange={setType} onCityChange={setCity}
               onSearch={() => {}}
             />
           </div>
@@ -62,6 +59,7 @@ const Properties = () => {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
