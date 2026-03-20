@@ -35,9 +35,9 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-              <span className="font-display font-bold text-primary-foreground text-sm">FYS</span>
+              <span className="font-display font-bold text-primary-foreground text-sm">FYSsssssssssssssss</span>
             </div>
-            <span className="font-display font-bold text-xl text-foreground">Find Your Stay</span>
+            <span className="font-display font-bold text-xl text-foreground">Find Your Stayssssssssssssssss</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-1">
