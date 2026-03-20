@@ -14,7 +14,253 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      blocked_dates: {
+        Row: {
+          created_at: string
+          date: string
+          id: string
+          property_id: string
+          reason: string | null
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          id?: string
+          property_id: string
+          reason?: string | null
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: string
+          property_id?: string
+          reason?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blocked_dates_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bookings: {
+        Row: {
+          created_at: string
+          end_date: string
+          id: string
+          property_id: string
+          start_date: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          end_date: string
+          id?: string
+          property_id: string
+          start_date: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          end_date?: string
+          id?: string
+          property_id?: string
+          start_date?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversations: {
+        Row: {
+          created_at: string
+          id: string
+          property_id: string
+          selected_dates: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          property_id: string
+          selected_dates?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          property_id?: string
+          selected_dates?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversations_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      messages: {
+        Row: {
+          content: string
+          conversation_id: string
+          created_at: string
+          id: string
+          read: boolean | null
+          sender_id: string
+        }
+        Insert: {
+          content: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          read?: boolean | null
+          sender_id: string
+        }
+        Update: {
+          content?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          read?: boolean | null
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          first_name: string
+          full_name: string
+          id: string
+          last_name: string
+          phone: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string
+          first_name?: string
+          full_name?: string
+          id: string
+          last_name?: string
+          phone?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          first_name?: string
+          full_name?: string
+          id?: string
+          last_name?: string
+          phone?: string
+        }
+        Relationships: []
+      }
+      properties: {
+        Row: {
+          airport_distance_km: number | null
+          amenities: string[] | null
+          bed_type: string | null
+          beds: number | null
+          city: string
+          created_at: string
+          description: string | null
+          id: string
+          max_guests: number | null
+          price_per_night: number
+          size_m2: number | null
+          title: string
+          type: string
+        }
+        Insert: {
+          airport_distance_km?: number | null
+          amenities?: string[] | null
+          bed_type?: string | null
+          beds?: number | null
+          city: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          max_guests?: number | null
+          price_per_night?: number
+          size_m2?: number | null
+          title: string
+          type: string
+        }
+        Update: {
+          airport_distance_km?: number | null
+          amenities?: string[] | null
+          bed_type?: string | null
+          beds?: number | null
+          city?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          max_guests?: number | null
+          price_per_night?: number
+          size_m2?: number | null
+          title?: string
+          type?: string
+        }
+        Relationships: []
+      }
+      property_images: {
+        Row: {
+          created_at: string
+          id: string
+          position: number | null
+          property_id: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          position?: number | null
+          property_id: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          position?: number | null
+          property_id?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_images_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
