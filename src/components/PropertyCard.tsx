@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { MapPin, Maximize2, BedDouble, Plane, Users } from "lucide-react";
-import type { Property } from "@/lib/mockData";
+import type { DbProperty } from "@/hooks/useProperties";
 
 interface PropertyCardProps {
-  property: Property;
+  property: DbProperty;
 }
 
 const PropertyCard = ({ property }: PropertyCardProps) => {
@@ -38,26 +38,20 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
           {property.title}
         </h3>
         <p className="flex items-center gap-1 text-muted-foreground text-sm mb-3">
-          <MapPin className="w-3.5 h-3.5" />
-          {property.city}
+          <MapPin className="w-3.5 h-3.5" />{property.city}
         </p>
-
         <div className="flex items-center gap-3 text-xs text-muted-foreground">
           <span className="flex items-center gap-1 bg-secondary px-2 py-1 rounded-md">
-            <Maximize2 className="w-3 h-3" />
-            <span className="font-tabular">{property.size_m2} m²</span>
+            <Maximize2 className="w-3 h-3" /><span className="font-tabular">{property.size_m2} m²</span>
           </span>
           <span className="flex items-center gap-1 bg-secondary px-2 py-1 rounded-md">
-            <BedDouble className="w-3 h-3" />
-            {property.beds}
+            <BedDouble className="w-3 h-3" />{property.beds}
           </span>
           <span className="flex items-center gap-1 bg-secondary px-2 py-1 rounded-md">
-            <Users className="w-3 h-3" />
-            {property.max_guests}
+            <Users className="w-3 h-3" />{property.max_guests}
           </span>
           <span className="flex items-center gap-1 bg-secondary px-2 py-1 rounded-md">
-            <Plane className="w-3 h-3" />
-            <span className="font-tabular">{property.airport_distance_km}km</span>
+            <Plane className="w-3 h-3" /><span className="font-tabular">{property.airport_distance_km}km</span>
           </span>
         </div>
       </div>

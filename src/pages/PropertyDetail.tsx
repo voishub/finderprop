@@ -1,12 +1,11 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, MapPin, Maximize2, BedDouble, Plane, Users, Wifi, Car, Waves, Tv, Wind, UtensilsCrossed, Shirt, Fence } from "lucide-react";
+import { ArrowLeft, MapPin, Maximize2, BedDouble, Plane, Users, Wifi, Car, Waves, Tv, Wind, UtensilsCrossed, Shirt, Fence, Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BookingCalendar from "@/components/BookingCalendar";
 import ContactForm from "@/components/ContactForm";
 import { Button } from "@/components/ui/button";
-import { mockProperties } from "@/lib/mockData";
-import { toast } from "sonner";
+import { useProperty } from "@/hooks/useProperties";
 
 const amenityIcons: Record<string, React.ElementType> = {
   WiFi: Wifi, Parking: Car, Bazen: Waves, TV: Tv, Klima: Wind,
@@ -15,7 +14,19 @@ const amenityIcons: Record<string, React.ElementType> = {
 
 const PropertyDetail = () => {
   const { id } = useParams();
-  const property = mockProperties.find((p) => p.id === id);
+  const { data: property, isLoading } = useProperty(id);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col">
+        <Navbar />
+        <div className="flex-1 pt-24 flex justify-center items-center">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   if (!property) {
     return (
@@ -23,9 +34,7 @@ const PropertyDetail = () => {
         <Navbar />
         <div className="flex-1 pt-24 container mx-auto px-4 text-center py-20">
           <h1 className="font-display text-2xl font-bold text-foreground mb-4">Nekretnina nije pronađena</h1>
-          <Link to="/nekretnine">
-            <Button variant="outline">Nazad na nekretnine</Button>
-          </Link>
+          <Link to="/nekretnine"><Button variant="outline">Nazad na nekretnine</Button></Link>
         </div>
         <Footer />
       </div>
@@ -36,7 +45,6 @@ const PropertyDetail = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
       <div className="flex-1 pt-20">
-        {/* Hero image */}
         <div className="relative h-[50vh] bg-secondary overflow-hidden">
           {property.images[0] ? (
             <img src={property.images[0]} alt={property.title} className="w-full h-full object-cover" />
@@ -64,8 +72,7 @@ const PropertyDetail = () => {
               <div>
                 <h1 className="font-display font-bold text-3xl text-foreground mb-2">{property.title}</h1>
                 <p className="flex items-center gap-1 text-muted-foreground">
-                  <MapPin className="w-4 h-4" />
-                  {property.city}
+                  <MapPin className="w-4 h-4" />{property.city}
                 </p>
               </div>
 
@@ -89,28 +96,48 @@ const PropertyDetail = () => {
                 <p className="text-muted-foreground font-body leading-relaxed">{property.description}</p>
               </div>
 
-              <div>
-                <h2 className="font-display font-semibold text-xl text-foreground mb-3">Sadržaji</h2>
-                <div className="flex flex-wrap gap-2">
-                  {property.amenities.map((a) => {
-                    const Icon = amenityIcons[a];
-                    return (
-                      <span key={a} className="flex items-center gap-2 bg-secondary px-3 py-2 rounded-lg text-sm text-foreground">
-                        {Icon && <Icon className="w-4 h-4 text-primary" strokeWidth={1.5} />}
-                        {a}
-                      </span>
-                    );
-                  })}
+              {property.amenities.length > 0 && (
+                <div>
+                  <h2 className="font-display font-semibold text-xl text-foreground mb-3">Sadržaji</h2>
+                  <div className="flex flex-wrap gap-2">
+                    {property.amenities.map((a) => {
+                      const Icon = amenityIcons[a];
+                      return (
+                        <span key={a} className="flex items-center gap-2 bg-secondary px-3 py-2 rounded-lg text-sm text-foreground">
+                          {Icon && <Icon className="w-4 h-4 text-primary" strokeWidth={1.5} />}
+                          {a}
+                        </span>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {/* Image gallery */}
+              {property.images.length > 1 && (
+                <div>
+                  <h2 className="font-display font-semibold text-xl text-foreground mb-3">Galerija</h2>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {property.images.map((img, i) => (
+                      <div key={i} className="aspect-video rounded-lg overflow-hidden bg-secondary">
+                        <img src={img} alt={`${property.title} ${i + 1}`} className="w-full h-full object-cover" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="space-y-6">
               <div>
                 <h2 className="font-display font-semibold text-lg text-foreground mb-3">Dostupnost</h2>
-                <BookingCalendar bookedDates={property.bookedDates} propertyTitle={property.title} />
+                <BookingCalendar
+                  bookedDates={property.blockedDates}
+                  propertyTitle={property.title}
+                  propertyId={property.id}
+                />
               </div>
-              <ContactForm propertyTitle={property.title} />
+              <ContactForm propertyTitle={property.title} propertyId={property.id} />
             </div>
           </div>
         </div>
