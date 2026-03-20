@@ -64,7 +64,7 @@ const Footer = () => {
 
         <div className="border-t border-border mt-8 pt-6 text-center">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Find Your Stay. Sva prava zadržana.
+            © {new Date().getFullYear()} Find Your Stayccccccccccc. Sva prava zadržana.
           </p>
         </div>
       </div>
