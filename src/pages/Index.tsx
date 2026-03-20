@@ -23,7 +23,7 @@ const Index = () => {
               Izdvojene nekretnine
             </h2>
             <p className="text-muted-foreground font-body">
-              Najtraženiji objekti na našoj platformi
+              Najtraženiji objekti na našoj platformiyyyyyyyyyyyyyyyyyyyyyyyyyy
             </p>
           </div>
           <Link to="/nekretnine">
