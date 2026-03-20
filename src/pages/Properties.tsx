@@ -1,25 +1,27 @@
 import { useState, useMemo } from "react";
+import { Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SearchBar from "@/components/SearchBar";
 import PropertyCard from "@/components/PropertyCard";
-import { mockProperties } from "@/lib/mockData";
+import { useProperties, type DbProperty } from "@/hooks/useProperties";
 
 const Properties = () => {
   const [keyword, setKeyword] = useState("");
   const [type, setType] = useState("");
   const [city, setCity] = useState("");
+  const { data: properties = [], isLoading } = useProperties();
 
   const filtered = useMemo(() => {
-    return mockProperties.filter((p) => {
-      const matchKeyword = !keyword || 
+    return properties.filter((p) => {
+      const matchKeyword = !keyword ||
         p.title.toLowerCase().includes(keyword.toLowerCase()) ||
         p.description.toLowerCase().includes(keyword.toLowerCase());
       const matchType = !type || p.type === type;
       const matchCity = !city || p.city === city;
       return matchKeyword && matchType && matchCity;
     });
-  }, [keyword, type, city]);
+  }, [keyword, type, city, properties]);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -28,9 +30,7 @@ const Properties = () => {
         <div className="container mx-auto px-4">
           <div className="mb-8">
             <h1 className="font-display font-bold text-3xl text-foreground mb-2">Nekretnine</h1>
-            <p className="text-muted-foreground font-body">
-              Pretražite i pronađite savršen smještaj
-            </p>
+            <p className="text-muted-foreground font-body">Pretražite i pronađite savršen smještaj</p>
           </div>
 
           <div className="mb-10">
@@ -41,7 +41,11 @@ const Properties = () => {
             />
           </div>
 
-          {filtered.length === 0 ? (
+          {isLoading ? (
+            <div className="flex justify-center py-20">
+              <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            </div>
+          ) : filtered.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-muted-foreground text-lg">Nema rezultata za vašu pretragu.</p>
             </div>
