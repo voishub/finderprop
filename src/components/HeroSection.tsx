@@ -13,11 +13,11 @@ const HeroSection = () => {
 
       <div className="relative z-10 container mx-auto px-4 py-20">
         <div className="max-w-2xl">
-          <span className="inline-block bg-accent text-accent-foreground px-4 py-1.5 rounded-full text-sm font-semibold mb-6 animate-fade-in">
-            Tedefy Real Estate & Booking
+          <span className="inline-block bg-accent text-accent-foreground px-4 py-1.5 rounded-full text-sm font-semibold mb-6 animate-fade-in">Find your perfect stay & Booking
+
           </span>
-          <h1 className="font-display font-extrabold text-4xl md:text-6xl text-primary-foreground leading-[1.1] mb-6 animate-fade-in" style={{ animationDelay: "100ms" }}>
-            Pronađite prostor koji odgovara vašim standardima.
+          <h1 className="font-display font-extrabold text-4xl md:text-6xl text-primary-foreground leading-[1.1] mb-6 animate-fade-in" style={{ animationDelay: "100ms" }}>Odmor znači slobodu, Sloboda nema cijenu!
+
           </h1>
           <p className="text-primary-foreground/80 text-lg md:text-xl mb-8 font-body leading-relaxed animate-fade-in" style={{ animationDelay: "200ms" }}>
             Precizni podaci o nekretninama. Jednostavno bukiranje. Transparentna dostupnost.
@@ -43,27 +43,27 @@ const HeroSection = () => {
         <div className="container mx-auto px-4 pb-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl">
             {[
-              { icon: Search, label: "Precizna pretraga", desc: "Po gradu, tipu i ključnim riječima" },
-              { icon: Calendar, label: "Real-time dostupnost", desc: "Kalendar sa slobodnim terminima" },
-              { icon: Building, label: "Detaljni podaci", desc: "m², kreveti, udaljenost od aerodroma" },
-            ].map((f, i) => (
-              <div
-                key={f.label}
-                className="flex items-start gap-3 bg-card/10 backdrop-blur-md rounded-xl px-4 py-3 border border-primary-foreground/10 animate-fade-in"
-                style={{ animationDelay: `${400 + i * 100}ms` }}
-              >
+            { icon: Search, label: "Precizna pretraga", desc: "Po gradu, tipu i ključnim riječima" },
+            { icon: Calendar, label: "Real-time dostupnost", desc: "Kalendar sa slobodnim terminima" },
+            { icon: Building, label: "Detaljni podaci", desc: "m², kreveti, udaljenost od aerodroma" }].
+            map((f, i) =>
+            <div
+              key={f.label}
+              className="flex items-start gap-3 bg-card/10 backdrop-blur-md rounded-xl px-4 py-3 border border-primary-foreground/10 animate-fade-in"
+              style={{ animationDelay: `${400 + i * 100}ms` }}>
+              
                 <f.icon className="w-5 h-5 text-accent mt-0.5" strokeWidth={1.5} />
                 <div>
                   <p className="text-primary-foreground font-medium text-sm">{f.label}</p>
                   <p className="text-primary-foreground/60 text-xs">{f.desc}</p>
                 </div>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>);
+
 };
 
 export default HeroSection;

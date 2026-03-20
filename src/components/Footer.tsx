@@ -10,9 +10,10 @@ const Footer = () => {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <span className="font-display font-bold text-primary-foreground text-sm">T</span>
+                <span className="font-display font-bold text-primary-foreground text-sm">FYS</span>
               </div>
-              <span className="font-display font-bold text-xl text-foreground">Tedefy</span>
+              <span className="font-display font-bold text-xl text-foreground">
+</span>
             </div>
             <p className="text-sm text-muted-foreground font-body leading-relaxed">
               Vaš pouzdan partner za pronalaženje idealnog smještaja u Crnoj Gori.
@@ -67,8 +68,7 @@ const Footer = () => {
           </p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>);
 };
 
 export default Footer;
