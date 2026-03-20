@@ -12,7 +12,7 @@ const Footer = () => {
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
                 <span className="font-display font-bold text-primary-foreground text-sm">FYS</span>
               </div>
-              <span className="font-display font-bold text-xl text-foreground">
+              <span className="font-display font-bold text-xl text-foreground">Find Your Stay</Span>
 </span>
             </div>
             <p className="text-sm text-muted-foreground font-body leading-relaxed">
@@ -56,7 +56,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Mail className="w-4 h-4 text-primary flex-shrink-0" />
-                info@tedefy.me
+                info@fys.me
               </li>
             </ul>
           </div>
@@ -64,7 +64,7 @@ const Footer = () => {
 
         <div className="border-t border-border mt-8 pt-6 text-center">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Tedefy. Sva prava zadržana.
+            © {new Date().getFullYear()} Find Your Stay. Sva prava zadržana.
           </p>
         </div>
       </div>
