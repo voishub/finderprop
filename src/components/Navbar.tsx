@@ -18,6 +18,9 @@ const Navbar = () => {
   if (isAdmin) {
     links.push({ to: "/admin", label: "Admin", icon: Shield });
   }
+  if (user) {
+    links.push({ to: "/profil", label: "Profil", icon: UserCircle });
+  }
 
   const isActive = (path: string) => location.pathname === path;
 
