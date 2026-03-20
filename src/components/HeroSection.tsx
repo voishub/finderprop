@@ -13,7 +13,7 @@ const HeroSection = () => {
 
       <div className="relative z-10 container mx-auto px-4 py-20">
         <div className="max-w-2xl">
-          <span className="inline-block bg-accent text-accent-foreground px-4 py-1.5 rounded-full text-sm font-semibold mb-6 animate-fade-in">Find your perfect stay & Booking
+          <span className="inline-block bg-accent text-accent-foreground px-4 py-1.5 rounded-full text-sm font-semibold mb-6 animate-fade-in">Find your perfect stay & Bookinggggggggg
 
           </span>
           <h1 className="font-display font-extrabold text-4xl md:text-6xl text-primary-foreground leading-[1.1] mb-6 animate-fade-in" style={{ animationDelay: "100ms" }}>Odmor znači slobodu, Sloboda nema cijenu!
